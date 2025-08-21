@@ -1,5 +1,5 @@
 /*
-    OLED LED DRIVER - Project by Asaf Dov
+    OLED LED DRIVER - Project by Asaf "Arliden The Bard" Dov
     Running random walk example. 
     adapt to your liking.
 */
