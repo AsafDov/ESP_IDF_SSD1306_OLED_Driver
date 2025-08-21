@@ -1,51 +1,141 @@
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C5 | ESP32-C6 | ESP32-C61 | ESP32-H2 | ESP32-H21 | ESP32-P4 | ESP32-S2 | ESP32-S3 |
-| ----------------- | ----- | -------- | -------- | -------- | -------- | --------- | -------- | --------- | -------- | -------- | -------- |
+# ESP-IDF SSD1306 OLED Driver
 
-# Basic I2C Master Example
+## 📖 About
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+This project is a lightweight, I2C-based driver for SSD1306 OLED displays, specifically designed for the Espressif IoT Development Framework (ESP-IDF). The goal is to provide a straightforward and efficient way to interface with these popular displays in your ESP32 projects.
 
-## Overview
+Currently, the driver is in the early stages of development. The foundational functionalities, such as initialization, configuration, and basic drawing operations, are implemented. The included `main.c` provides a simple random walk example to demonstrate the driver's current capabilities.
 
-This example demonstrates basic usage of I2C driver by reading and writing from a I2C connected sensor:
+## Random Walk Example
+![ezgif com-optimize (1)](https://github.com/user-attachments/assets/4bd85a07-feb8-43f4-b65d-c78f8a4fa3af)
 
-If you have a new I2C application to go (for example, read the temperature data from external sensor with I2C interface), try this as a basic template, then add your own code.
+-----
 
-## How to use example
+## ✨ Features
 
-### Hardware Required
+  * **I2C Communication:** Utilizes the ESP-IDF's I2C master driver for communication with the OLED display.
+  * **Display Initialization:** A comprehensive initialization sequence to configure the SSD1306 controller for standard 128x64 displays.
+  * **Local Framebuffer:** Implements a local framebuffer for efficient and flicker-free rendering.
+  * **Basic Drawing Primitives:** Includes a function to draw filled rectangles (`oled_square_filled`), which can be used for drawing individual pixels or lines.
+  * **Bitmap Support:** A function to display monochrome bitmaps is in development.
 
-To run this example, you should have an Espressif development board based on a chip listed in supported targets as well as a MPU9250. MPU9250 is a inertial measurement unit, which contains a accelerometer, gyroscope as well as a magnetometer, for more information about it, you can read the [datasheet of the MPU9250 sensor](https://invensense.tdk.com/wp-content/uploads/2015/02/PS-MPU-9250A-01-v1.1.pdf).
+-----
 
-#### Pin Assignment
+## 🛠️ Hardware Requirements
 
-**Note:** The following pin assignments are used by default, you can change these in the `menuconfig` .
+  * An ESP32 development board
+  * An SSD1306-based OLED display (128x64 resolution)
+  * Jumper wires for connecting the display to the ESP32
 
-|                  | SDA             | SCL           |
-| ---------------- | -------------- | -------------- |
-| ESP I2C Master   | I2C_MASTER_SDA | I2C_MASTER_SCL |
-| MPU9250 Sensor   | SDA            | SCL            |
+### Pin Configuration
 
-For the actual default value of `I2C_MASTER_SDA` and `I2C_MASTER_SCL` see `Example Configuration` in `menuconfig`.
+The driver is configured to use the following default pins, which can be easily changed in `main.c`:
 
-**Note:** There's no need to add an external pull-up resistors for SDA/SCL pin, because the driver will enable the internal pull-up resistors.
+  * **SCL:** GPIO 22
+  * **SDA:** GPIO 21
 
-### Build and Flash
+-----
 
-Enter `idf.py -p PORT flash monitor` to build, flash and monitor the project.
+## 🚀 Getting Started
 
-(To exit the serial monitor, type ``Ctrl-]``.)
+### Prerequisites
 
-See the [Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html) for full steps to configure and use ESP-IDF to build projects.
+  * ESP-IDF v5.5 or later installed and configured.
+  * A working toolchain for building and flashing ESP32 projects.
 
-## Example Output
+### Configuration
 
-```bash
-I (328) example: I2C initialized successfully
-I (338) example: WHO_AM_I = 71
-I (338) example: I2C de-initialized successfully
+1.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/AsafDov/ESP_IDF_OLED_Driver/
+    ```
+2.  **Navigate to the Project Directory:**
+    ```bash
+    cd ESP_IDF_OLED_Driver
+    ```
+3.  **Configure the Project:**
+    Open `main.c` and adjust the I2C pins and OLED configuration macros as needed for your hardware setup.
+    ```c
+    #define SCL_PIN GPIO_NUM_22
+    #define SDA_PIN GPIO_NUM_21
+
+    #define OLED_I2C_ADDRESS 0x3c
+    #define OLED_SCREEN_WIDTH 128
+    #define OLED_SCREEN_HEIGHT 64
+    ```
+4.  **Build and Flash:**
+    ```bash
+    idf.py build
+    idf.py -p (YOUR_PORT) flash
+    ```
+5.  **Monitor the Output:**
+    ```bash
+    idf.py -p (YOUR_PORT) monitor
+    ```
+
+### Basic Usage Example
+
+Here's a simplified example of how to use the driver:
+
+```c
+#include "oled_driver.h"
+
+void app_main(void) {
+    // 1. Initialize the I2C master bus
+    i2c_master_bus_handle_t bus_handle;
+    // ... (I2C initialization code) ...
+
+    // 2. Configure the OLED display
+    oled_config_t oled_cfg = {
+        .device_address = OLED_I2C_ADDRESS,
+        .width = OLED_SCREEN_WIDTH,
+        .height = OLED_SCREEN_HEIGHT,
+        // ... (other configuration) ...
+    };
+
+    // 3. Initialize the OLED driver
+    oled_handle_t oled_handle = oled_init(&bus_handle, &oled_cfg);
+
+    // 4. Draw to the framebuffer
+    oled_square_filled(oled_handle, 10, 10, 20, 20);
+
+    // 5. The oled_update_frame_buffer() is called within oled_square_filled()
+    //    to push the changes to the display.
+}
 ```
 
-## Troubleshooting
+-----
 
-(For any technical queries, please open an [issue](https://github.com/espressif/esp-idf/issues) on GitHub. We will get back to you as soon as possible.)
+## 📋 Driver API
+
+The public functions for interacting with the OLED driver are defined in `oled_driver.h`.
+
+| Function                       | Description                                                                                                                              |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `oled_init()`                  | Initializes the OLED driver and the display hardware.                                                                                    |
+| `oled_flush_gddram()`          | Clears the entire display by writing zeros to the GDDRAM.                                                                                |
+| `oled_print_bitmap()`          | (Under Development) Renders a monochrome bitmap on the screen.                                                                           |
+| `oled_square_filled()`         | Draws a filled rectangle on the display. Can be used to set individual pixels by providing the same start and end coordinates.             |
+| `oled_get_refresh_rate()`      | Returns the configured refresh rate of the display.                                                                                      |
+| `oled_update_frame_buffer()`   | Pushes the contents of the local framebuffer to the OLED display, making any changes visible.                                             |
+
+-----
+
+## 🚧 Development Status & Future Plans
+
+This driver is currently a **work in progress**. While the core functionality is in place, there is still much to be done.
+
+### Roadmap
+
+  * [ ] **Drawing Primitives:** Implement more advanced drawing functions for lines, circles, and text.
+  * [ ] **Status Bar Icons:** Implement editing of status bar with icon support
+  * [ ] **Text Library:** Implement a text rendering library
+  * [ ] **Font Support:** Add a font library for easy text rendering.
+  * [ ] **Optimization:** Refine the I2C communication and framebuffer handling for better performance.
+  * [ ] **Documentation:** Improve the in-code documentation and provide more detailed examples.
+
+-----
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome\! Feel free to check the [issues page](https://www.google.com/search?q=https://github.com/your-username/your-repository/issues).
