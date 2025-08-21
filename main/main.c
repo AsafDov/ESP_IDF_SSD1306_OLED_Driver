@@ -1,5 +1,7 @@
 /*
-    Running random walk app on an OLED
+    OLED LED DRIVER - Project by Asaf Dov
+    Running random walk example. 
+    adapt to your liking.
 */
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
@@ -13,8 +15,6 @@
 #include "bitmaps.h"
 #include <stdlib.h> // Required for rand() and srand()
 #include <time.h>   // Required for time()
-
-// static const char *TAG = "example";
 
 #define SCL_SPEED_HZ 100000
 #define SCL_PIN GPIO_NUM_22
@@ -31,6 +31,7 @@
 // Globals:
 
 // Functions
+// Random walk function task
 void random_walk(void* params){
     oled_handle_t oled_handle = (oled_handle_t)params;
     srand(time(NULL));
@@ -58,10 +59,12 @@ void random_walk(void* params){
     }
 };
 
+
+
 void app_main(void)
 {
     ESP_LOGI("I2C", "Configuring I2C Master");
-    /* Configure and Instantiate I2C Master */
+    /* Configure and Initialize I2C Master */
     i2c_master_bus_config_t i2c_mst_config = {
         .clk_source = I2C_CLK_SRC_DEFAULT,
         .i2c_port = TEST_I2C_PORT,
@@ -75,13 +78,13 @@ void app_main(void)
     static i2c_master_bus_handle_t bus_handle;
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_mst_config, &bus_handle));
 
-    /* Configure and Instantiate OLED */
+    /* Configure and Instantiate OLED device */
     ESP_LOGI("OLED", "Configuring OLED");
     oled_config_t oled_cfg = {
         .device_address = OLED_I2C_ADDRESS,
         .address_bit_length = I2C_ADDR_BIT_LEN_7,
-        .width = OLED_SCREEN_HEIGHT,
-        .height = OLED_SCREEN_WIDTH,
+        .width = OLED_SCREEN_WIDTH,
+        .height = OLED_SCREEN_HEIGHT,
         .refresh_rate_ms = OLED_REFRESH_RATE_MS,
         .scl_speed_hz = SCL_SPEED_HZ,
     };
@@ -89,10 +92,7 @@ void app_main(void)
     oled_handle_t oled_handle = oled_init(&bus_handle, &oled_cfg);
     ESP_LOGI("OLED", "OLED Initialized");
 
-    // Start random walk task
+    /* Start random walk task example */
     xTaskCreatePinnedToCore(random_walk, "random_walk", 2048, oled_handle, 5, NULL, 1);
 
-    while(1){
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
 }
