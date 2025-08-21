@@ -6,9 +6,6 @@ This project is a lightweight, I2C-based driver for SSD1306 OLED displays, speci
 
 Currently, the driver is in the early stages of development. The foundational functionalities, such as initialization, configuration, and basic drawing operations, are implemented. The included `main.c` provides a simple random walk example to demonstrate the driver's current capabilities.
 
-## Random Walk Example
-![ezgif com-optimize (1)](https://github.com/user-attachments/assets/4bd85a07-feb8-43f4-b65d-c78f8a4fa3af)
-
 -----
 
 ## ✨ Features
@@ -74,6 +71,7 @@ The driver is configured to use the following default pins, which can be easily 
     ```
 
 ### Basic Usage Example
+![ezgif com-optimize (1)](https://github.com/user-attachments/assets/4bd85a07-feb8-43f4-b65d-c78f8a4fa3af)
 
 Here's a simplified example of how to use the driver:
 
