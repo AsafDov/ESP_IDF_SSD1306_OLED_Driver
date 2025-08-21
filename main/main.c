@@ -60,7 +60,6 @@ void random_walk(void* params){
 
 void app_main(void)
 {
-
     ESP_LOGI("I2C", "Configuring I2C Master");
     /* Configure and Instantiate I2C Master */
     i2c_master_bus_config_t i2c_mst_config = {
@@ -73,7 +72,7 @@ void app_main(void)
     };
 
     ESP_LOGI("I2C", "Initializing I2C Master");
-    i2c_master_bus_handle_t bus_handle;
+    static i2c_master_bus_handle_t bus_handle;
     ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_mst_config, &bus_handle));
 
     /* Configure and Instantiate OLED */
@@ -88,20 +87,7 @@ void app_main(void)
     };
     ESP_LOGI("OLED", "Initializing OLED");
     oled_handle_t oled_handle = oled_init(&bus_handle, &oled_cfg);
-
-    // Bitmap of a star for a 128x64 OLED display
-    // const int bitmap_size = (64 * 128)/8;
-
-    ESP_LOGI("OLED", "Printing to OLED");
-
-    // oled_square_filled(oled_handle, 20, 20, 21, 21);
-    // oled_square_filled(oled_handle, 10, 30, 20, 40);
-    // oled_square_filled(oled_handle, 80, 30, 90, 40);
-    // vTaskDelay(10000 / portTICK_PERIOD_MS); // Delay for 10 seconds
-
-    ESP_LOGI("OLED", "Done");
-        // oled_flush_gddram(oled_handle); // Clear the display
-        // vTaskDelay(10000 / portTICK_PERIOD_MS); // Delay for 10 seconds
+    ESP_LOGI("OLED", "OLED Initialized");
 
     // Start random walk task
     xTaskCreatePinnedToCore(random_walk, "random_walk", 2048, oled_handle, 5, NULL, 1);
