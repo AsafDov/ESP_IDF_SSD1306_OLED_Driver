@@ -14,5 +14,10 @@
     "random": "c"
   },
   "idf.flashType": "UART",
-  "idf.portWin": "COM11"
+  "idf.portWin": "COM11",
+  "cSpell.words": [
+    "gddram",
+    "oled",
+    "SRCS"
+  ]
 }

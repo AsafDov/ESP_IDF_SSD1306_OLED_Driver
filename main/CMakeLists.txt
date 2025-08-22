@@ -1,2 +1,3 @@
-idf_component_register(SRCS "oled_driver.c" "main.c"
-                       INCLUDE_DIRS ".")
+idf_component_register(SRCS "main.c"
+                       INCLUDE_DIRS "."
+                       REQUIRES oled_driver)

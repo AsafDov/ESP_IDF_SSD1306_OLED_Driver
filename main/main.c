@@ -11,8 +11,6 @@
 #include "esp_log.h"
 #include "oled_driver.h"
 #include "sdkconfig.h"
-#include "../../../../esp/v5.5/esp-idf/components/esp_driver_i2c/test_apps/i2c_test_apps/main/test_board.h"
-#include "bitmaps.h"
 #include <stdlib.h> // Required for rand() and srand()
 #include <time.h>   // Required for time()
 
@@ -67,7 +65,7 @@ void app_main(void)
     /* Configure and Initialize I2C Master */
     i2c_master_bus_config_t i2c_mst_config = {
         .clk_source = I2C_CLK_SRC_DEFAULT,
-        .i2c_port = TEST_I2C_PORT,
+        .i2c_port = 0,
         .scl_io_num = SCL_PIN, 
         .sda_io_num = SDA_PIN, 
         .glitch_ignore_cnt = 7,

@@ -127,7 +127,7 @@ void oled_flush_gddram(oled_handle_t oled_handle) {
  * @details This function sends a series of commands to the OLED display to configure
  * its operating parameters, such as display size, memory addressing mode,
  * contrast, and orientation. It follows a typical initialization flow recommended
- * [cite_start]for 128x64 displays[cite: 3313]. This is called once by oled_init().
+ * for 128x64 displays. This is called once by oled_init().
  *
  * @param oled_handle A handle to the initialized OLED driver instance.
  * @note The specific command values used here are for a common 128x64 display
@@ -138,91 +138,91 @@ void send_config_commands(oled_handle_t oled_handle) {
     unsigned char double_cmd[3] = {0x00, 0x00, 0x00};
     unsigned char single_cmd[2] = {0x00, 0x00};
     
-    [cite_start]// Turn Display OFF (0xAE) 
+    // Turn Display OFF (0xAE) 
     single_cmd[0] = 0x00;
     single_cmd[1] = 0xAE;
     send_command(oled_handle, single_cmd, 2);
 
-    [cite_start]// Set Display Clock Divide Ratio/Oscillator Frequency (0xD5) 
+    // Set Display Clock Divide Ratio/Oscillator Frequency (0xD5) 
     double_cmd[0] = 0x00;
     double_cmd[1] = 0xD5;
     double_cmd[2] = 0x80;
     send_command(oled_handle, double_cmd, 3);
 
-    [cite_start]// Set Multiplex Ratio (0xA8) to 64MUX 
+    // Set Multiplex Ratio (0xA8) to 64MUX 
     double_cmd[0] = 0x00;
     double_cmd[1] = 0xA8;
     double_cmd[2] = 0x3F; // 63d for 64 MUX
     send_command(oled_handle, double_cmd, 3);
 
-    [cite_start]// Set Display Offset (0xD3) with no offset 
+    // Set Display Offset (0xD3) with no offset 
     double_cmd[0] = 0x00;
     double_cmd[1] = 0xD3;
     double_cmd[2] = 0x00;
     send_command(oled_handle, double_cmd, 3);
 
-    [cite_start]// Set Display Start Line (0x40) to line 0 
+    // Set Display Start Line (0x40) to line 0 
     single_cmd[0] = 0x00;
     single_cmd[1] = 0x40;
     send_command(oled_handle, single_cmd, 2);
 
-    [cite_start]// Enable Charge Pump Regulator (0x8D) 
+    // Enable Charge Pump Regulator (0x8D) 
     double_cmd[0] = 0x00;
     double_cmd[1] = 0x8D;
     double_cmd[2] = 0x14;
     send_command(oled_handle, double_cmd, 3);
 
-    [cite_start]// Set Memory Addressing Mode (0x20) to Horizontal Mode 
+    // Set Memory Addressing Mode (0x20) to Horizontal Mode 
     double_cmd[0] = 0x00;
     double_cmd[1] = 0x20;
     double_cmd[2] = 0x00;
     send_command(oled_handle, double_cmd, 3);
 
-    [cite_start]// Set Segment Re-map (0xA1), mapping column 127 to SEG0 
+    // Set Segment Re-map (0xA1), mapping column 127 to SEG0 
     single_cmd[0] = 0x00;
     single_cmd[1] = 0xA1;
     send_command(oled_handle, single_cmd, 2);
 
-    [cite_start]// Set COM Output Scan Direction (0xC8) in remapped mode 
+    // Set COM Output Scan Direction (0xC8) in remapped mode 
     single_cmd[0] = 0x00;
     single_cmd[1] = 0xC8;
     send_command(oled_handle, single_cmd, 2);
 
-    [cite_start]// Set COM Pins Hardware Configuration (0xDA) 
+    // Set COM Pins Hardware Configuration (0xDA) 
     double_cmd[0] = 0x00;
     double_cmd[1] = 0xDA;
     double_cmd[2] = 0x12;
     send_command(oled_handle, double_cmd, 3);
 
-    [cite_start]// Set Contrast Control (0x81) 
+    // Set Contrast Control (0x81) 
     double_cmd[0] = 0x00;
     double_cmd[1] = 0x81;
     double_cmd[2] = 0xCF;
     send_command(oled_handle, double_cmd, 3);
 
-    [cite_start]// Set Pre-charge Period (0xD9) 
+    // Set Pre-charge Period (0xD9) 
     double_cmd[0] = 0x00;
     double_cmd[1] = 0xD9;
     double_cmd[2] = 0xF1;
     send_command(oled_handle, double_cmd, 3);
 
-    [cite_start]// Set VCOMH Deselect Level (0xDB) 
+    // Set VCOMH Deselect Level (0xDB) 
     double_cmd[0] = 0x00;
     double_cmd[1] = 0xDB;
     double_cmd[2] = 0x40;
     send_command(oled_handle, double_cmd, 3);
 
-    [cite_start]// Resume display from GDDRAM content (0xA4) 
+    // Resume display from GDDRAM content (0xA4) 
     single_cmd[0] = 0x00; 
     single_cmd[1] = 0xA4;
     send_command(oled_handle, single_cmd, 2);
 
-    [cite_start]// Set Normal Display mode (0xA6) 
+    // Set Normal Display mode (0xA6) 
     single_cmd[0] = 0x00;
     single_cmd[1] = 0xA6;
     send_command(oled_handle, single_cmd, 2);
 
-    [cite_start]// Turn Display ON (0xAF) 
+    // Turn Display ON (0xAF) 
     single_cmd[0] = 0x00;
     single_cmd[1] = 0xAF;
     send_command(oled_handle, single_cmd, 2);

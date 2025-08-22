@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include "driver/i2c_master.h"
 
- 
 typedef struct oled *oled_handle_t;
 
 typedef struct oled_config{
