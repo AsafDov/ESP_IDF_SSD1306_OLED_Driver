@@ -44,11 +44,11 @@ The driver is configured to use the following default pins, which can be easily 
 
 1.  **Clone the Repository:**
     ```bash
-    git clone https://github.com/AsafDov/ESP_IDF_OLED_Driver/
+    git clone https://github.com/AsafDov/ESP_IDF_SSD1306_OLED_Driver/
     ```
 2.  **Navigate to the Project Directory:**
     ```bash
-    cd ESP_IDF_OLED_Driver
+    cd ESP_IDF_SSD1306_OLED_Driver
     ```
 3.  **Configure the Project:**
     Open `main.c` and adjust the I2C pins and OLED configuration macros as needed for your hardware setup.

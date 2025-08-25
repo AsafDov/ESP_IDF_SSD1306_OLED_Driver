@@ -3,4 +3,4 @@
 cmake_minimum_required(VERSION 3.16)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(ESP_IDF_OLED_Driver)
+project(ESP_IDF_SSD1306_OLED_Driver)
