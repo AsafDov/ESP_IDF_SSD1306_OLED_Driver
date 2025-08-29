@@ -71,6 +71,7 @@ The driver is configured to use the following default pins, which can be easily 
     ```
 
 ### Basic Usage Example
+Random Walk Simulation
 ![ezgif com-optimize (1)](https://github.com/user-attachments/assets/4bd85a07-feb8-43f4-b65d-c78f8a4fa3af)
 
 Here's a simplified example of how to use the driver:
